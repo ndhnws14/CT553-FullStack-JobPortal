@@ -1,0 +1,21 @@
+# Secrets
+*.env
+*.json
+
+# Chỉ ignore các file nhạy cảm cụ thể
+/backend/dialogflow-key.json
+/backend/geekjobs-9caad-firebase-adminsdk-fbsvc-6e1c31bb26.json
+
+# Node.js
+**/node_modules/
+
+# Python
+**/__pycache__/
+**/venv/
+
+# VSCode
+.vscode/
+
+# System
+.DS_Store
+Thumbs.db
