@@ -175,8 +175,10 @@ const Login = () => {
           Đăng nhập
         </Button>
 
+        <div className="text-sm text-center my-2">Hoặc</div>
+
         {/* Google login */}
-        <div className="flex flex-col items-center my-5">
+        <div className="flex flex-col items-center mb-5">
           <Button
             type="button"
             onClick={googleLoginHandler}
