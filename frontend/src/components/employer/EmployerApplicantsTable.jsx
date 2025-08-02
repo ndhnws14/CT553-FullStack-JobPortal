@@ -117,107 +117,127 @@ const EmployerApplicantsTable = () => {
 
   return (
     <div>
-      <Table>
-        <TableCaption>Danh sách những người đã ứng tuyển</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Họ và tên</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Liên hệ</TableHead>
-            <TableHead>Hồ sơ</TableHead>
-            <TableHead>Ngày ứng tuyển</TableHead>
-            <TableHead>Ngày phỏng vấn</TableHead>
-            <TableHead>Trạng thái</TableHead>
-            <TableHead className='text-right'>Hành động</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {applicants?.applications?.map((item) => (
-            <TableRow key={item._id}>
-              <TableCell>{item?.applicant?.fullname}</TableCell>
-              <TableCell>{item?.applicant?.email}</TableCell>
-              <TableCell>{item?.applicant?.phoneNumber}</TableCell>
-              <TableCell>
-                {item?.applicant?.cvId ? (
-                  <div onClick={() => fetchCV(item.applicant.cvId)} className='flex items-center text-sm hover:text-blue-400 rounded-xl cursor-pointer'>
-                    <Eye className="w-4 h-4 mr-2" />Xem CV
-                  </div>
-                ) : "Không có"}
-              </TableCell>
-              <TableCell>{FormatApplyDate(item?.createdAt)}</TableCell>
-              <TableCell>
-                {item?.interviewDate ? (
-                  <span className="text-sm text-gray-700">
-                    {new Date(item.interviewDate).toLocaleString('vi-VN', {
+      <div className="overflow-x-auto">
+        <Table className="min-w-full text-sm">
+          <TableCaption className="text-xs">Danh sách những người đã ứng tuyển</TableCaption>
+          <TableHeader className="hidden md:table-header-group">
+            <TableRow>
+              <TableHead>Họ và tên</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Liên hệ</TableHead>
+              <TableHead>Hồ sơ</TableHead>
+              <TableHead>Ngày ứng tuyển</TableHead>
+              <TableHead>Ngày phỏng vấn</TableHead>
+              <TableHead>Trạng thái</TableHead>
+              <TableHead className="text-right">Hành động</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {applicants?.applications?.map((item) => (
+              <TableRow key={item._id} className="flex flex-col md:table-row border md:border-0 p-4 md:p-0 rounded-xl mb-4 md:mb-0 shadow-sm md:shadow-none">
+                <TableCell className="font-medium md:table-cell">
+                  <span className="md:hidden font-semibold">Họ và tên: </span>{item?.applicant?.fullname}
+                </TableCell>
+                <TableCell className="md:table-cell">
+                  <span className="md:hidden font-semibold">Email: </span>{item?.applicant?.email}
+                </TableCell>
+                <TableCell className="md:table-cell">
+                  <span className="md:hidden font-semibold">Liên hệ: </span>{item?.applicant?.phoneNumber}
+                </TableCell>
+                <TableCell className="md:table-cell">
+                  <span className="md:hidden font-semibold">Hồ sơ: </span>
+                  {item?.applicant?.cvId ? (
+                    <div onClick={() => fetchCV(item.applicant.cvId)} className="flex items-center text-blue-500 hover:text-blue-600 cursor-pointer">
+                      <Eye className="w-4 h-4 mr-1" /> Xem CV
+                    </div>
+                  ) : "Không có"}
+                </TableCell>
+                <TableCell className="md:table-cell">
+                  <span className="md:hidden font-semibold">Ngày ứng tuyển: </span>{FormatApplyDate(item?.createdAt)}
+                </TableCell>
+                <TableCell className="md:table-cell">
+                  <span className="md:hidden font-semibold">Ngày phỏng vấn: </span>
+                  {item?.interviewDate ? (
+                    <span>{new Date(item.interviewDate).toLocaleString('vi-VN', {
                       day: '2-digit',
                       month: '2-digit',
                       year: 'numeric',
                       hour: '2-digit',
                       minute: '2-digit',
                       hour12: false
-                    })}
-                  </span>
-                ) : item.status === "Đã xác nhận" ? (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      setSelectedApplicationId(item._id);
-                      setOpenScheduleDialog(true);
-                    }}
-                    className='rounded-xl'
+                    })}</span>
+                  ) : item.status === "Đã xác nhận" ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setSelectedApplicationId(item._id);
+                        setOpenScheduleDialog(true);
+                      }}
+                      className="rounded-xl mt-2 md:mt-0"
+                    >
+                      <Calendar className="w-4 h-4 mr-1" />
+                      Lên lịch
+                    </Button>
+                  ) : (
+                    <span className="text-sm italic text-gray-500">Chưa chấp nhận</span>
+                  )}
+                </TableCell>
+                <TableCell className="md:table-cell">
+                  <span className="md:hidden font-semibold">Trạng thái: </span>
+                  <Popover
+                    open={openPopoverId === item._id}
+                    onOpenChange={(v) => setOpenPopoverId(v ? item._id : null)}
                   >
-                    <Calendar className="w-4 h-4 mr-1" />
-                    Lên lịch
-                  </Button>
-                ) : (
-                  <span className="text-sm text-gray-500 italic">Chưa chấp nhận</span>
-                )}
-              </TableCell>
-              <TableCell className='cursor-pointer'>
-                <Popover
-                  open={openPopoverId === item._id}
-                  onOpenChange={(v) => setOpenPopoverId(v ? item._id : null)}
-                >
-                  <PopoverTrigger>
-                    <span className={`px-3 py-2 rounded-xl text-sm font-medium ${item.status === "Đã xác nhận" ? "bg-green-100 text-green-600" : item.status === "Đã bị hủy" ? "bg-red-100 text-red-600" : "bg-gray-100 text-gray-600"}`}>
-                      {item.status === "Đã xác nhận" ? "Đã chấp nhận" : item.status === "Đã bị hủy" ? "Đã từ chối" : "Chờ xử lý"}
-                    </span>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-32 p-2 mt-2">
-                    {statusOptions.map((option, index) => (
-                      <div
-                        key={index}
-                        onClick={() => {
-                          statusHandler(option.value, item._id);
-                          setOpenPopoverId(null);
-                        }}
-                        className={`flex items-center gap-2 px-2 py-2 my-2 w-full rounded-xl transition text-sm font-medium cursor-pointer ${option.color}`}
-                      >
-                        {option.label}
-                      </div>
-                    ))}
-                  </PopoverContent>
-                </Popover>
-              </TableCell>
-              <TableCell className='text-right'>
-                <div className='flex justify-end'>
-                  <div
-                    onClick={() => {
-                      setApplicantToDelete(item);
-                      setOpenDeleteDialog(true);
-                    }}
-                    className='flex text-red-500 items-center px-3 py-2 text-sm font-medium hover:bg-gray-100 rounded-xl cursor-pointer'
-                  >
-                    <Trash2 className='w-4 h-4 mr-2' />
-                    <span>Xóa</span>
+                    <PopoverTrigger>
+                      <span className={`px-3 py-2 rounded-xl text-sm font-medium cursor-pointer ${item.status === "Đã xác nhận"
+                        ? "bg-green-100 text-green-600"
+                        : item.status === "Đã bị hủy"
+                          ? "bg-red-100 text-red-600"
+                          : "bg-gray-100 text-gray-600"
+                        }`}>
+                        {item.status === "Đã xác nhận"
+                          ? "Đã chấp nhận"
+                          : item.status === "Đã bị hủy"
+                            ? "Đã từ chối"
+                            : "Chờ xử lý"}
+                      </span>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-32 p-2 mt-2">
+                      {statusOptions.map((option, index) => (
+                        <div
+                          key={index}
+                          onClick={() => {
+                            statusHandler(option.value, item._id);
+                            setOpenPopoverId(null);
+                          }}
+                          className={`flex items-center gap-2 px-2 py-2 my-2 w-full rounded-xl transition text-sm font-medium cursor-pointer ${option.color}`}
+                        >
+                          {option.label}
+                        </div>
+                      ))}
+                    </PopoverContent>
+                  </Popover>
+                </TableCell>
+                <TableCell className="text-right md:table-cell mt-2 md:mt-0">
+                  <div className="flex justify-end">
+                    <div
+                      onClick={() => {
+                        setApplicantToDelete(item);
+                        setOpenDeleteDialog(true);
+                      }}
+                      className="flex text-red-500 items-center px-3 py-2 text-sm font-medium hover:bg-gray-100 rounded-xl cursor-pointer"
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      <span>Xóa</span>
+                    </div>
                   </div>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
 
       {/* Dialog xem CV */}
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
