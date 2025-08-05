@@ -15,8 +15,11 @@ const requestSlice = createSlice({
                 req._id === id ? { ...req, status } : req
             );
         },
+        addSkillRequest: (state, action) => {
+            state.requestSkills = [action.payload, ...state.requestSkills];
+        },
     }
 });
 
-export const { setRequestSkills, updateRequestStatus } = requestSlice.actions;
+export const { setRequestSkills, updateRequestStatus, addSkillRequest } = requestSlice.actions;
 export default requestSlice.reducer;

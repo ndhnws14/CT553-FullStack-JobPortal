@@ -26,10 +26,11 @@ import {
 import Sidebar from "../shared/Sidebar.jsx";
 import FormatApplyDate from "../FormatApplyDate";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { setRequestSkills, updateRequestStatus } from "@/redux/requestSlice";
+import { addSkillRequest, setRequestSkills, updateRequestStatus } from "@/redux/requestSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowLeftCircle, ArrowRightCircle, Pencil, Trash, Trash2 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import socket from "@/lib/socket";
 
 const statusOptions = [
     { label: "Duyệt", value: "Duyệt", color: "text-green-600 bg-green-100 hover:bg-green-200" },
@@ -233,6 +234,14 @@ const SkillManager = () => {
       setRequestToDelete(null);
     }
   };
+
+  useEffect(() => {
+    socket.on('skill_request', (skillRequest) => dispatch(addSkillRequest(skillRequest)));
+
+    return () => {
+      socket.off('skill_request');
+    };
+  }, [dispatch])
 
 
 

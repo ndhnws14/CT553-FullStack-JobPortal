@@ -163,7 +163,10 @@ export const requestSkill = async (req, res) => {
       return res.status(409).json({ success: false, message: 'Kỹ năng đã tồn tại trong hệ thống.' });
     }
 
-    await SkillRequest.create({ name, requestedBy: userId });
+    const skillRequest = await SkillRequest.create({ name, requestedBy: userId });
+
+    const io = req.app.get('io');
+    io.emit("skill_request", skillRequest);
 
     res.status(200).json({ success: true, message: 'Đã gửi yêu cầu thành công.' });
   } catch (err) {
