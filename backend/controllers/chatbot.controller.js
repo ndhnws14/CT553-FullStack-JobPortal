@@ -115,8 +115,33 @@ export const postChatbot = async (req, res) => {
         }
       }
     }
-    
 
+    if (intent === "Tìm công việc theo địa điểm") {
+      const location = result.parameters.fields["location"]?.stringValue;
+
+      if (!location) {
+        reply = "Bạn muốn tìm việc ở khu vực nào?";
+      } else {
+        const jobs = await Job.find()
+          .populate({
+            path: "company",
+            match: { location: { $regex: new RegExp(location, "i") } },
+          })
+          .populate("requiredSkills");
+
+        const filteredJobs = jobs.filter((job) => job.company !== null);
+
+        if (filteredJobs.length > 0) {
+          reply = {
+            type: "job_list",
+            data: filteredJobs.slice(0, 5),
+          };
+        } else {
+          reply = `Hiện chưa có công việc nào ở khu vực "${location}".`;
+        }
+      }
+    }
+    
     res.json({ success: true, reply: { role: "assistant", content: reply } });
   } catch (err) {
     console.error(err);

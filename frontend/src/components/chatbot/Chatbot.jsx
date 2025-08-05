@@ -72,16 +72,15 @@ const Chatbot = ({ onClose }) => {
     }
 
     if (msg.content.type === "user_list") {
-  return (
-    <div className="space-y-2">
-      <h2 className="text-md font-medium my-1">Danh sách các ứng viên theo yêu cầu của bạn </h2>
-      {msg.content.data.map((user) => (
-        <UserCardPreview key={user._id} user={user} />
-      ))}
-    </div>
-  );
-}
-
+      return (
+        <div className="space-y-2">
+          <h2 className="text-md font-medium my-1">Danh sách các ứng viên theo yêu cầu của bạn </h2>
+          {msg.content.data.map((user) => (
+            <UserCardPreview key={user._id} user={user} />
+          ))}
+        </div>
+      );
+    }
 
     return <div>[Không xác định phản hồi]</div>;
   };
