@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useGetAllJobs from "@/hooks/useGetAllJobs.jsx";
@@ -10,8 +10,6 @@ import { stopLoading } from "@/redux/uiSlice";
 import Introduction from "./Introduction";
 import RecommendByIndustry from "../RecommendByIndustry";
 import RecommendByUserBehavior from "../RecommendByUserBehavior";
-import axios from "axios";
-import { RECOMMEND_API_END_POINT } from "@/utills/constant";
 
 const Home = () => {
   useGetAllJobs();
