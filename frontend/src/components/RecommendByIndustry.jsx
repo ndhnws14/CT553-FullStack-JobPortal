@@ -41,7 +41,9 @@ const RecommendByIndustry = () => {
             key={ind.key}
             variant={activeIndustry === ind.key ? "default" : "outline"}
             onClick={() => setActiveIndustry(ind.key)}
-            className="rounded-xl"
+            className={`rounded-xl transition-colors ${
+              activeIndustry === ind.key ? "bg-blue-600 text-white hover:bg-blue-700" : ""
+            }`}
           >
             {ind.label}
           </Button>
