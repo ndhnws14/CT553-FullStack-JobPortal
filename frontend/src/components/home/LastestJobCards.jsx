@@ -46,7 +46,7 @@ const LastestJobCards = ({ job }) => {
 
         {/* Title & Skills */}
         <div>
-          <h3 className="text-xl font-bold text-gray-900">{job?.title}</h3>
+          <h3 className="truncate max-w-[450px] text-xl font-bold text-gray-900">{job?.title}</h3>
           <div className="flex flex-wrap gap-2 my-2">
             {(job.requiredSkills || []).slice(0, 4).map((skill, idx) => (
               <Badge key={idx} variant="outline" className='text-xs text-gray-800 px-2 py-1 bg-gray-50 border'>

@@ -40,7 +40,7 @@ const UserMenu = ({ user, logoutHandler, mobile = false }) => {
       <Button
         onClick={logoutHandler}
         variant="link"
-        className={`text-red-500 flex gap-2 items-center ${mobile ? "justify-start" : ""}`}
+        className="text-red-500 flex gap-2 items-center justify-start pl-4"
       >
         <LogOut size={18} /> Đăng xuất
       </Button>
