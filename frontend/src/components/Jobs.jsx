@@ -68,12 +68,19 @@ const Jobs = () => {
   };
 
   useEffect(() => {
-    socket.on('job_post', (job) => dispatch(addJob(job)));
-    socket.on('job_deleted', (id) => dispatch(removeJob(id)));
+    const onPostJob = (job) => {
+      dispatch(addJob(job));
+    };
+    const onDeletedJob = (jobId) => {
+      dispatch(removeJob(jobId))
+    };
+
+    socket.on("job_post", onPostJob);
+    socket.on("job_deleted", onDeletedJob);
 
     return () => {
-      socket.off('job_post');
-      socket.off('job_deleted');
+      socket.off("job_post", onPostJob);
+      socket.off("job_deleted", onDeletedJob);
     };
   }, [dispatch]);
 
