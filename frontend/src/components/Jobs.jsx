@@ -10,7 +10,7 @@ import axios from 'axios';
 import { stopLoading } from '@/redux/uiSlice.js';
 import RecommendBySkills from './RecommendBySkills.jsx';
 import PopularJobs from './PopularJobs.jsx';
-import { ArrowLeft, ArrowLeftCircle, ArrowLeftFromLine, ArrowRight, ArrowRightCircle } from 'lucide-react';
+import { ArrowLeftCircle, ArrowRightCircle } from 'lucide-react';
 
 const JOBS_PER_PAGE = 20;
 

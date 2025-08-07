@@ -23,23 +23,13 @@ const PostManager = () => {
 
   const dispatch = useDispatch();
   const { allJobs } = useSelector((store) => store.job);
+
   useGetAllJobs();
 
   const [openDialog, setOpenDialog] = useState(false);
   const [job, setJob] = useState(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [jobToDelete, setJobToDelete] = useState(null);
-  const fetchJob = async (jobId) => {
-        try {
-            const res = await axios.get(`${JOB_API_END_POINT}/get-job/${jobId}`, { withCredentials: true });
-            console.log(res.data);
-            
-            setJob(res.data.job);
-            setOpenDialog(true);
-        } catch (err) {
-            toast.error("Không thể tải thông tin công việc");
-        }
-    };
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -126,7 +116,13 @@ const PostManager = () => {
                     <TableCell>{FormatApplyDate(job.createdAt)}</TableCell>
                     <TableCell>{FormatApplyDate(job.duration)}</TableCell>
                     <TableCell>
-                      <div onClick={() => fetchJob(job._id)} className='w-10 gap-2 px-2 py-2 ml-2 cursor-pointer'>
+                      <div
+                        onClick={() => {
+                          setJob(job);
+                          setOpenDialog(true);
+                        }}
+                        className="w-10 gap-2 px-2 py-2 ml-2 cursor-pointer"
+                      >
                         <AlertCircle className="w-4 h-4" />
                       </div>
                     </TableCell>
@@ -147,7 +143,7 @@ const PostManager = () => {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan="6" className="text-center text-gray-500">
+                  <TableCell colSpan="7" className="text-center text-gray-500">
                     Không có bài đăng nào phù hợp.
                   </TableCell>
                 </TableRow>
@@ -157,37 +153,30 @@ const PostManager = () => {
 
           {totalPages > 1 && (
             <div className="flex justify-end mt-4 gap-2">
-              <Button
-                disabled={page === 1}
-                onClick={() => setPage((prev) => prev - 1)}
-              >
+              <Button disabled={page === 1} onClick={() => setPage((prev) => prev - 1)}>
                 <ArrowLeftCircle />
               </Button>
               <span className="px-4 py-2 text-sm font-medium">
                 Trang {page}/{totalPages}
               </span>
-              <Button
-                disabled={page === totalPages}
-                onClick={() => setPage((prev) => prev + 1)}
-              >
+              <Button disabled={page === totalPages} onClick={() => setPage((prev) => prev + 1)}>
                 <ArrowRightCircle />
               </Button>
             </div>
           )}
         </div>
+
         {/* Dialog xác nhận xóa */}
         <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
           <DialogContent className="max-w-md p-6 rounded-md bg-white">
-            <h3 className="text-lg font-semibold mb-4">
-              Bạn có chắc chắn muốn xóa bài đăng này?
-            </h3>
+            <h3 className="text-lg font-semibold mb-4">Bạn có chắc chắn muốn xóa bài đăng này?</h3>
             <p className="mb-6">
               Tiêu đề: <strong>{jobToDelete?.title}</strong>
               <br />
               Công ty: <strong>{jobToDelete?.company?.name || "Không rõ"}</strong>
             </p>
             <div className="flex justify-end gap-4">
-              <Button variant="outline" className='rounded' onClick={() => setOpenDeleteDialog(false)}>
+              <Button variant="outline" className="rounded" onClick={() => setOpenDeleteDialog(false)}>
                 Hủy
               </Button>
               <Button className="bg-red-600 hover:bg-red-700 text-white rounded" onClick={handleDeleteConfirmed}>
@@ -197,6 +186,7 @@ const PostManager = () => {
           </DialogContent>
         </Dialog>
 
+        {/* Dialog xem chi tiết job */}
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
           <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto bg-white text-black p-6">
             <ReadJobDetails job={job} />
