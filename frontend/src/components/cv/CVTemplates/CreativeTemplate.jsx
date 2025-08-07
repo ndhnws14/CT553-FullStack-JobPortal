@@ -1,9 +1,9 @@
 import FormatApplyDate from "@/components/FormatApplyDate";
 import React from "react";
 
-const CreativeTemplate = ({ cv }) => {
+const CreativeTemplate = ({ cv, resumeRef }) => {
   return (
-    <div className="flex justify-center mt-4">
+    <div ref={resumeRef} className="flex justify-center mt-4">
       <div className="w-[210mm] min-h-[297mm] bg-gradient-to-br from-pink-100 to-blue-100 p-10 shadow-lg rounded-lg text-gray-800 font-sans">
         <div className="flex items-center gap-6 mb-6">
           <img src={cv.avatar} alt="avatar" className="w-40 h-40 object-cover rounded-full border-4 border-pink-400" />
@@ -75,29 +75,45 @@ const CreativeTemplate = ({ cv }) => {
             <section>
               <h2 className="text-pink-700 font-bold text-lg">Kinh nghiệm</h2>
               {cv.experiences.map((exp, i) => (
-                <div key={i} className="text-sm mt-2 border-b pb-2">
+                <div key={i} className="text-sm mt-2 border-b pb-2 space-y-1">
                   <p className="font-semibold">{exp.projectName}</p>
                   <p className="italic text-xs">{exp.completionTime}</p>
                   <p>{exp.description}</p>
-                  {exp.link && <a href={exp.link} className="text-blue-600 underline">{exp.link}</a>}
-                  <p><strong>Thành viên:</strong> {exp.member}</p>
-                  <p>
-                    <strong>Công nghệ:</strong>
-                    <ul className="list-disc list-inside ml-4">
-                      {exp.technology?.split("\n").map((tech, i) => (
-                        <li key={i}>{tech.trim()}</li>
-                      ))}
-                    </ul>
-                  </p>
 
-                  <p>
-                    <strong>Chức năng:</strong>
-                    <ul className="list-disc list-inside ml-4">
-                      {exp.function?.split("\n").map((func, i) => (
-                        <li key={i}>{func.trim()}</li>
-                      ))}
-                    </ul>
-                  </p>
+                  {exp.link && (
+                    <a
+                      href={exp.link}
+                      className="text-blue-600 underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {exp.link}
+                    </a>
+                  )}
+
+                  <p><strong>Thành viên:</strong> {exp.member}</p>
+
+                  {exp.technology && (
+                    <>
+                      <p><strong>Công nghệ:</strong></p>
+                      <ul className="list-disc list-inside ml-4">
+                        {exp.technology.split("\n").map((tech, i) => (
+                          <li key={i}>{tech.trim()}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+
+                  {exp.function && (
+                    <>
+                      <p><strong>Chức năng:</strong></p>
+                      <ul className="list-disc list-inside ml-4">
+                        {exp.function.split("\n").map((func, i) => (
+                          <li key={i}>{func.trim()}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
                 </div>
               ))}
             </section>

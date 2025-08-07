@@ -1,9 +1,9 @@
 import FormatApplyDate from "@/components/FormatApplyDate";
 import React from "react";
 
-const MinimalTemplate = ({ cv }) => {
+const MinimalTemplate = ({ cv, resumeRef }) => {
   return (
-    <div className="flex justify-center mt-4">
+    <div ref={resumeRef} className="flex justify-center mt-4">
       <div className="w-[210mm] min-h-[297mm] bg-white border border-gray-300 p-10 font-sans text-gray-900">
         <header className="border-b pb-4 mb-6">
           <h1 className="text-3xl text-center font-bold uppercase">{cv.fullname}</h1>

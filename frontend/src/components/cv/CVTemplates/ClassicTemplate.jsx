@@ -1,9 +1,9 @@
 import FormatApplyDate from "@/components/FormatApplyDate";
 import React from "react";
 
-const ClassicTemplate = ({ cv }) => {
+const ClassicTemplate = ({ cv, resumeRef }) => {
   return (
-    <div className="flex justify-center mt-4">
+    <div ref={resumeRef} className="flex justify-center mt-4">
       <div className="w-[210mm] min-h-[297mm] bg-white p-6 shadow border border-gray-300">
         <div className="flex gap-5">
           <div className="w-1/5 flex flex-col gap-4">

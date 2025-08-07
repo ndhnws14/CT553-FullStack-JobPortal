@@ -9,7 +9,7 @@ export const applyJob = async (req, res) => {
     const userId = req.id;
     const jobId = req.params.id;
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate('profile.skills.skill');
     if (!userId) {
       return res.status(400).json({
         message: "Vui lòng đăng nhập vào GeekJobs!",
@@ -17,7 +17,7 @@ export const applyJob = async (req, res) => {
       });
     }
 
-    if(!user.cvId) {
+    if (!user.cvId) {
       return res.status(400).json({
         message: "Bạn chưa có CV để ứng tuyển công việc này.",
         success: false
@@ -43,7 +43,7 @@ export const applyJob = async (req, res) => {
       });
     }
 
-    const job = await Job.findById(jobId).populate('company');
+    const job = await Job.findById(jobId).populate('company requiredSkills requiredLevels');
     if (!job) {
       return res.status(404).json({
         message: "Không tìm thấy công việc.",
@@ -58,9 +58,23 @@ export const applyJob = async (req, res) => {
       });
     }
 
-    if (!job.requiredLevels.some(level => level.equals(user.profile.level))) {
+    // Kiểm tra trình độ
+    if (!job.requiredLevels.some(level => level._id.equals(user.profile.level))) {
       return res.status(400).json({
         message: "Bạn chưa đạt yêu cầu về trình độ để ứng tuyển công việc này.",
+        success: false
+      });
+    }
+
+    // **Kiểm tra kỹ năng**
+    const userSkillIds = user.profile.skills.map(s => s.skill._id.toString());
+    const requiredSkillIds = job.requiredSkills.map(skill => skill._id.toString());
+
+    const hasMatchingSkill = requiredSkillIds.some(skillId => userSkillIds.includes(skillId));
+
+    if (!hasMatchingSkill) {
+      return res.status(400).json({
+        message: "Bạn không phù hợp với yêu cầu công việc này.",
         success: false
       });
     }

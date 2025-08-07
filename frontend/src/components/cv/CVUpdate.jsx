@@ -13,6 +13,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import useGetCVById from '@/hooks/useGetCVById';
 import { startLoading, stopLoading } from '@/redux/uiSlice';
 
+const formatDateToInput = (dateString) => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+
 const CVUpdate = () => {
     const params = useParams();
     const cvId = params.id;
@@ -38,6 +48,7 @@ const CVUpdate = () => {
         },
         skillGroups: [],
         experiences: [],
+        template: "",
     });
     const {cv} = useSelector(store => store.cv);
     const [avatarPreview, setAvatarPreview] = useState("");
@@ -130,6 +141,7 @@ const CVUpdate = () => {
         formData.append("hobbies", input.hobbies);
         formData.append("target", input.target);
         formData.append("certificate", input.certificate);
+        formData.append("template", input.template);
         formData.append("education", JSON.stringify(input.education));
         formData.append("skillGroups", JSON.stringify(input.skillGroups));
         formData.append("experiences", JSON.stringify(input.experiences));
@@ -178,6 +190,7 @@ const CVUpdate = () => {
           setInput({
             fullname: cv.fullname || "",
             office: cv.office || "",
+            template: cv.template || "classic",
             file: null,
             birthday: cv.birthday || "",
             sex: cv.sex || "",
@@ -221,6 +234,23 @@ const CVUpdate = () => {
             <h1 className="font-bold text-xl text-center">Cập nhật Hồ Sơ - CV</h1>
         </div>
         <p className='border-b-2 border-b-gray-300 py-2'></p>
+        <div className="flex items-center justify-between m-4">
+            <div className="flex items-center gap-4">
+                <Label className="text-blue-800 font-semibold">Chọn mẫu CV:</Label>
+                <select
+                    name="template"
+                    value={input.template}
+                    onChange={changeEventHandler}
+                    className="border rounded-xl px-3 py-2"
+                >
+                    <option value="classic">Cổ điển</option>
+                    <option value="modern">Hiện đại</option>
+                    <option value="minimal">Tối giản</option>
+                    <option value="creative">Sáng tạo</option>
+                </select>
+            </div>
+            <span></span>
+        </div>
         <form onSubmit={submitHandler} className="max-w-3xl mx-auto p-4 bg-white rounded shadow space-y-6">
             <div>
                 <label className="block font-semibold mb-1" htmlFor="fullname">Họ Và Tên</label>
@@ -275,7 +305,7 @@ const CVUpdate = () => {
                     id="birthday"
                     name="birthday"
                     type="date"
-                    value={input.birthday}
+                    value={formatDateToInput(input.birthday)}
                     onChange={changeEventHandler}
                     className="w-full border rounded px-3 py-2"
                 />

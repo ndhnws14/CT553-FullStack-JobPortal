@@ -155,93 +155,95 @@ export const getCV = async (req, res) => {
 };
 
 export const updateCV = async (req, res) => {
+  try {
+    const userId = req.id;
+    const cvId = req.params.id;
+    const file = req.file;
+
+    const {
+      fullname, office, birthday, sex, email, phoneNumber,
+      address, github, hobbies, target, certificate, skillGroups,
+      template
+    } = req.body;
+
+    let education = {};
+    let experiences = [];
+    let parsedSkillGroups = [];
+
     try {
-      const userId = req.id;
-      const cvId = req.params.id;
-      const file = req.file;
-  
-      const {
-        fullname, office, birthday, sex, email, phoneNumber,
-        address, github, hobbies, target, certificate, skillGroups
-      } = req.body;
-  
-      let education = {};
-      let experiences = [];
-      let parsedSkillGroups = [];
-  
-      try {
-        education = JSON.parse(req.body.education || "{}");
-        experiences = JSON.parse(req.body.experiences || "[]");
+      education = JSON.parse(req.body.education || "{}");
+      experiences = JSON.parse(req.body.experiences || "[]");
 
-        if (typeof skillGroups === "string") {
-          parsedSkillGroups = JSON.parse(skillGroups);
-        } else {
-          parsedSkillGroups = skillGroups;
-        }
-      } catch {
-        return res.status(400).json({ message: "Dữ liệu JSON không hợp lệ.", success: false });
+      if (typeof skillGroups === "string") {
+        parsedSkillGroups = JSON.parse(skillGroups);
+      } else {
+        parsedSkillGroups = skillGroups;
       }
-  
-      const user = await User.findById(userId);
-      if (!user) {
-        return res.status(400).json({ message: "Người dùng không tồn tại!", success: false });
-      }
-  
-      const cv = await CV.findById(cvId);
-      if (!cv || cv.created_by.toString() !== userId.toString()) {
-        return res.status(404).json({ message: "Không tìm thấy CV hoặc bạn không có quyền chỉnh sửa.", success: false });
-      }
-
-      const validationMessage = validateCVData({
-        fullname, office, birthday, sex, email, phoneNumber, address,
-        github, target, certificate, education, skillGroups: parsedSkillGroups, experiences
-      });
-  
-      if (validationMessage) {
-        return res.status(400).json({ message: validationMessage, success: false });
-      }
-  
-      let avatarUrl = cv.avatar;
-      if (file) {
-        try {
-          const fileUri = getDataUri(file);
-          const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
-            resource_type: "auto",
-            folder: "cvs",
-            access_mode: "public"
-          });
-          avatarUrl = cloudResponse.secure_url;
-        } catch {
-          return res.status(500).json({ message: "Lỗi khi tải ảnh lên Cloudinary.", success: false });
-        }
-      }
-  
-      Object.assign(cv, {
-        fullname,
-        office,
-        avatar: avatarUrl,
-        birthday,
-        sex,
-        email,
-        phoneNumber,
-        address,
-        github,
-        hobbies,
-        target,
-        certificate,
-        education,
-        skillGroups: parsedSkillGroups,
-        experiences
-      });
-  
-      await cv.save();
-  
-      return res.status(200).json({ message: "Cập nhật hồ sơ thành công.", cv, success: true });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Đã xảy ra lỗi khi cập nhật hồ sơ.", success: false });
+    } catch {
+      return res.status(400).json({ message: "Dữ liệu JSON không hợp lệ.", success: false });
     }
-};  
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ message: "Người dùng không tồn tại!", success: false });
+    }
+
+    const cv = await CV.findById(cvId);
+    if (!cv || cv.created_by.toString() !== userId.toString()) {
+      return res.status(404).json({ message: "Không tìm thấy CV hoặc bạn không có quyền chỉnh sửa.", success: false });
+    }
+
+    const validationMessage = validateCVData({
+      fullname, office, birthday, sex, email, phoneNumber, address,
+      github, target, certificate, education, skillGroups: parsedSkillGroups, experiences, template // thêm template vào validate nếu có
+    });
+
+    if (validationMessage) {
+      return res.status(400).json({ message: validationMessage, success: false });
+    }
+
+    let avatarUrl = cv.avatar;
+    if (file) {
+      try {
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+          resource_type: "auto",
+          folder: "cvs",
+          access_mode: "public"
+        });
+        avatarUrl = cloudResponse.secure_url;
+      } catch {
+        return res.status(500).json({ message: "Lỗi khi tải ảnh lên Cloudinary.", success: false });
+      }
+    }
+
+    Object.assign(cv, {
+      fullname,
+      office,
+      avatar: avatarUrl,
+      birthday,
+      sex,
+      email,
+      phoneNumber,
+      address,
+      github,
+      hobbies,
+      target,
+      certificate,
+      education,
+      skillGroups: parsedSkillGroups,
+      experiences,
+      template
+    });
+
+    await cv.save();
+
+    return res.status(200).json({ message: "Cập nhật hồ sơ thành công.", cv, success: true });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Đã xảy ra lỗi khi cập nhật hồ sơ.", success: false });
+  }
+};
 
 export const deleteCV = async (req, res) => {
     try {

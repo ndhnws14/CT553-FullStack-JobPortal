@@ -88,8 +88,8 @@ const Profile = () => {
             <div className='max-w-4xl mx-auto bg-white border border-gray-200 dark:text-gray-700 rounded-xl my-5 p-8 shadow-sm'>
                 <div className='flex justify-between items-start'>
                     <div className='flex items-start gap-6 w-full'>
-                        <Avatar className="h-28 w-28">
-                            <AvatarImage src={user?.profile?.profilePhoto ?? ""} alt={user?.fullname || "Avatar"} />
+                        <Avatar className="h-28 w-28 border border-gray-500">
+                            <AvatarImage src={user?.profile?.profilePhoto ?? "/assets/avatar.jpg"} alt={user?.fullname || "Avatar"} />
                         </Avatar>
 
                         <div className="flex flex-col sm:flex-row justify-between w-full">

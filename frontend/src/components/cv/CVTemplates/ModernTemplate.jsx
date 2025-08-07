@@ -1,9 +1,9 @@
 import FormatApplyDate from "@/components/FormatApplyDate";
 import React from "react";
 
-const ModernTemplate = ({ cv }) => {
+const ModernTemplate = ({ cv, resumeRef }) => {
   return (
-    <div className="flex justify-center mt-4">
+    <div ref={resumeRef} className="flex justify-center mt-4">
       <div className="w-[210mm] min-h-[297mm] bg-white shadow-lg border border-gray-200 flex">
 
         <div className="w-1/3 bg-blue-100 p-6 flex flex-col items-center text-gray-800">
@@ -76,12 +76,16 @@ const ModernTemplate = ({ cv }) => {
 
           {cv.experiences?.length > 0 && (
             <div>
-              <h2 className="text-lg font-bold border-b border-blue-500 text-blue-700 pb-1">Kinh nghiệm</h2>
+              <h2 className="text-lg font-bold border-b border-blue-500 text-blue-700 pb-1">
+                Kinh nghiệm
+              </h2>
+
               {cv.experiences.map((exp, i) => (
-                <div key={i} className="mt-4 text-sm border-b pb-3">
+                <div key={i} className="mt-4 text-sm border-b pb-3 space-y-2">
                   <p className="text-blue-600 font-semibold">{exp.projectName}</p>
                   <p className="italic text-gray-500 text-xs">{exp.completionTime}</p>
                   <p>{exp.description}</p>
+
                   {exp.link && (
                     <p>
                       <strong>Link:</strong>{" "}
@@ -95,24 +99,32 @@ const ModernTemplate = ({ cv }) => {
                       </a>
                     </p>
                   )}
-                  <p><strong>Thành viên:</strong> {exp.member}</p>
-                  <p>
-                    <strong>Công nghệ:</strong>
-                    <ul className="list-disc list-inside ml-4">
-                      {exp.technology?.split("\n").map((tech, i) => (
-                        <li key={i}>{tech.trim()}</li>
-                      ))}
-                    </ul>
-                  </p>
 
                   <p>
-                    <strong>Chức năng:</strong>
-                    <ul className="list-disc list-inside ml-4">
-                      {exp.function?.split("\n").map((func, i) => (
-                        <li key={i}>{func.trim()}</li>
-                      ))}
-                    </ul>
+                    <strong>Thành viên:</strong> {exp.member}
                   </p>
+
+                  {exp.technology && (
+                    <>
+                      <p><strong>Công nghệ:</strong></p>
+                      <ul className="list-disc list-inside ml-4">
+                        {exp.technology.split("\n").map((tech, i) => (
+                          <li key={i}>{tech.trim()}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+
+                  {exp.function && (
+                    <>
+                      <p><strong>Chức năng:</strong></p>
+                      <ul className="list-disc list-inside ml-4">
+                        {exp.function.split("\n").map((func, i) => (
+                          <li key={i}>{func.trim()}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
                 </div>
               ))}
             </div>

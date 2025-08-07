@@ -141,9 +141,7 @@ const MyCV = () => {
         </div>
         <div className="border-b-2 border-gray-300 my-4"></div>
 
-        <div ref={resumeRef}>
-          <CVRenderer template={myCV.template} cv={myCV} />
-        </div>
+        <CVRenderer template={myCV.template} cv={myCV} resumeRef={resumeRef} />
 
         <div className="flex justify-center items-center gap-3 my-5">
           <Button
