@@ -68,23 +68,6 @@ const Jobs = () => {
   };
 
   useEffect(() => {
-    const onPostJob = (job) => {
-      dispatch(addJob(job));
-    };
-    const onDeletedJob = (jobId) => {
-      dispatch(removeJob(jobId))
-    };
-
-    socket.on("job_post", onPostJob);
-    socket.on("job_deleted", onDeletedJob);
-
-    return () => {
-      socket.off("job_post", onPostJob);
-      socket.off("job_deleted", onDeletedJob);
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
     setTimeout(() => {
       dispatch(stopLoading());
     }, 800);
@@ -103,6 +86,23 @@ const Jobs = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentPage]);
+
+  useEffect(() => {
+    const onPostJob = (job) => {
+      dispatch(addJob(job));
+    };
+    const onDeletedJob = (jobId) => {
+      dispatch(removeJob(jobId))
+    };
+
+    socket.on("job_post", onPostJob);
+    socket.on("job_deleted", onDeletedJob);
+
+    return () => {
+      socket.off("job_post", onPostJob);
+      socket.off("job_deleted", onDeletedJob);
+    };
+  }, [dispatch]);
 
   return (
     <>
