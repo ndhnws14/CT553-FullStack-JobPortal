@@ -30,7 +30,7 @@ export const createSkill = async (req, res) => {
         });
 
         return res.status(201).json({
-            message: "Tạo công việc mới thành công.",
+            message: "Tạo kỹ năng mới thành công.",
             techskill,
             success: true
         });

@@ -8,9 +8,12 @@ import axios from "axios";
 import { USER_API_END_POINT } from "@/utills/constant.js";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading } from "@/redux/authSlice.js";
+import { setLoading, setUser } from "@/redux/authSlice.js";
 import { CameraIcon, Eye, EyeOff, Loader2 } from "lucide-react";
 import { stopLoading } from "@/redux/uiSlice.js";
+import { FcGoogle } from "react-icons/fc";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "@/lib/firebase.js";
 
 const Signup = () => {
   const [input, setInput] = useState({
@@ -57,6 +60,32 @@ const Signup = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Đã xảy ra lỗi.");
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+  const googleLoginHandler = async () => {
+    try {
+      dispatch(setLoading(true));
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const idToken = await user.getIdToken();
+
+      const res = await axios.post(
+        `${USER_API_END_POINT}/login-google`,
+        { credential: idToken },
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        dispatch(setUser(res.data.user));
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.error("Lỗi khi đăng nhập Google:", error);
+      toast.error("Đăng nhập Google thất bại!");
     } finally {
       dispatch(setLoading(false));
     }
@@ -228,11 +257,27 @@ const Signup = () => {
         ) : (
           <Button
             type="submit"
-            className="w-full my-4 text-white bg-blue-700 hover:bg-blue-600 rounded-xl px-6 py-2 font-medium"
+            className="w-full text-white bg-blue-700 hover:bg-blue-600 rounded-xl px-6 py-2 font-medium"
           >
             Đăng ký
           </Button>
         )}
+
+        <div className="text-sm text-center my-2">Hoặc</div>
+        
+        {/* Google login */}
+        <div className="flex flex-col items-center mb-5">
+          <Button
+            type="button"
+            onClick={googleLoginHandler}
+            disabled={loading}
+            variant="outline"
+            className="w-full rounded-xl flex items-center justify-center gap-2 py-2"
+          >
+            <FcGoogle className="w-5 h-5" />
+            Đăng nhập bằng Google
+          </Button>
+        </div>
 
         {/* Link đăng nhập */}
         <p className="text-sm text-center">
