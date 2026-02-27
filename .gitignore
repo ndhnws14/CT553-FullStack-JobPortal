@@ -1,6 +1,5 @@
 # Secrets
 *.env
-*.json
 
 # Chỉ ignore các file nhạy cảm cụ thể
 /backend/dialogflow-key.json
