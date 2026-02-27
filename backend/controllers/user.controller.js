@@ -12,10 +12,12 @@ import getDataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 import { sendMail } from "../utils/sendEmail.js";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const serviceAccount = path.join(__dirname, '../geekjobs-9caad-firebase-adminsdk-fbsvc-6e1c31bb26.json');
+
 admin.initializeApp({
-  credential: admin.credential.cert(
-    JSON.parse(process.env.FIREBASE_KEY)
-  ),
+    credential: admin.credential.cert(serviceAccount),
 });
 
 //REGISTER
