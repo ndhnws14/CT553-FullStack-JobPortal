@@ -14,7 +14,7 @@ import { sendMail } from "../utils/sendEmail.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const serviceAccount = path.join(__dirname, '../geekjobs-9caad-firebase-adminsdk-fbsvc-6e1c31bb26.json');
+const serviceAccount = path.join(__dirname, process.env.FIREBASE_KEY);
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
