@@ -12,12 +12,10 @@ import getDataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 import { sendMail } from "../utils/sendEmail.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const serviceAccount = path.join(__dirname, process.env.FIREBASE_KEY);
-
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(
+    JSON.parse(process.env.FIREBASE_KEY)
+  ),
 });
 
 //REGISTER
