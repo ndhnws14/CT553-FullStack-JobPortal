@@ -181,7 +181,6 @@ Main collections:
 
 # 👨‍💻 Author
 
-Nguyễn Đông Hồ
-Software Engineering Student – Can Tho University
+Nguyễn Đông Hồ - Software Engineering Student – Can Tho University
 
 ---
