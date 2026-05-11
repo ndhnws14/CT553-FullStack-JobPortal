@@ -1,128 +1,143 @@
-**GeekJobs – Website Tuyển dụng IT theo mô hình Tech Stack**
+# GeekJobs – IT Recruitment Platform based on Tech Stack
 
-📌 Giới thiệu
+## 📌 Overview
 
-GeekJobs là website tuyển dụng chuyên biệt cho ngành công nghệ thông tin, được xây dựng dựa trên mô hình Tech Stack.
+GeekJobs is a full-stack IT recruitment platform designed specifically for the technology industry.
 
-Khác với các nền tảng tuyển dụng chung chung, hệ thống này tập trung kết nối ứng viên ↔ công việc ↔ nhà tuyển dụng dựa trên công nghệ (Tech Skill) mà họ sử dụng.
+Unlike traditional recruitment websites, GeekJobs connects candidates, jobs, and recruiters based on technical skills and technology stacks rather than generic job titles.
 
-Ứng viên có thể tìm kiếm việc làm theo ngôn ngữ lập trình, framework, hoặc công nghệ cụ thể, thay vì chỉ theo vị trí chung như Frontend Developer hay Backend Developer.
+The platform allows developers to search for jobs using programming languages, frameworks, and technologies such as ReactJS, NodeJS, Python, Docker, etc.
 
-🎯 Mục tiêu
+---
 
-Hỗ trợ ứng viên IT tìm được công việc phù hợp với kỹ năng và định hướng nghề nghiệp.
+# 🚀 Technical Highlights
 
-Hỗ trợ nhà tuyển dụng dễ dàng tìm thấy ứng viên có kỹ năng sát yêu cầu công việc.
+- JWT Authentication & Role-based Authorization (RBAC)
+- RESTful API Architecture
+- Controller-Service Pattern
+- Real-time Notification using Socket.IO
+- Recommendation System using FastAPI + SentenceTransformers
+- Pagination, Filtering & Search Optimization
+- MongoDB Indexing
+- File Upload with Multer
+- Security Middleware (Helmet, Rate Limit)
+- Responsive UI with TailwindCSS + Shadcn/UI
 
-Xây dựng một nền tảng tuyển dụng cá nhân hóa, thông minh hơn các website truyền thống.
+---
 
-⚙️ Công nghệ sử dụng
+# 🏗️ System Architecture
 
-  🖥️ Frontend
-  
-  ReactJS – Xây dựng giao diện
-  
-  Tailwind CSS + Shadcn/UI – Thiết kế UI hiện đại, responsive
-  
-  Redux Toolkit – Quản lý state
-  
-  Socket.IO Client – Thông báo realtime
-  
-  Nivo/Chart.js – Vẽ biểu đồ thống kê
-  
-  🛠️ Backend
-  
-  Node.js + Express.js – Xây dựng REST API
-  
-  MongoDB – Lưu trữ dữ liệu (NoSQL)
-  
-  Mongoose – ODM cho MongoDB
-  
-  Socket.IO – Hỗ trợ realtime notification
-  
-  Dialogflow – Tích hợp chatbot AI
-  
-  FastAPI + SentenceTransformers – Hệ thống gợi ý công việc & ứng viên (Python service)
-  
-🚀 Chức năng chính
+## Frontend
+- ReactJS
+- Redux Toolkit
+- TailwindCSS
+- Shadcn/UI
+- Socket.IO Client
 
-  👩‍💻 Ứng viên
-  
-  Đăng ký, đăng nhập (Email/Google)
-  
-  Cập nhật thông tin cá nhân, thay đổi mật khẩu
-  
-  Tạo và quản lý hồ sơ (CV)
-  
-  Tìm kiếm công việc theo tech stack
-  
-  Xem chi tiết công việc, công ty
-  
-  Yêu thích, lưu công việc, theo dõi công ty
-  
-  Ứng tuyển công việc, quản lý trạng thái hồ sơ
-  
-  Xem gợi ý công việc phù hợp
-  
-  Chatbot tư vấn 24/7
-  
-  Dark mode / Light mode
-  
-  🏢 Nhà tuyển dụng
-  
-  Đăng ký, đăng nhập, đổi mật khẩu
-  
-  Đăng ký công ty, quản lý thông tin công ty
-  
-  Đăng tin tuyển dụng, chỉnh sửa, quản lý bài đăng
-  
-  Xem CV của ứng viên, cập nhật trạng thái ứng tuyển
-  
-  Lên lịch phỏng vấn, gửi thông báo cho ứng viên
-  
-  Xem thống kê số lượt xem công việc & công ty
-  
-  Nhận gợi ý ứng viên phù hợp
-  
-  👨‍💼 Quản trị viên
-  
-  Quản lý danh sách Tech Skill
+## Backend
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT Authentication
+- Socket.IO
 
-  Quản lý công ty, công việc, người dùng
-  
-  Xem báo cáo thống kê toàn hệ thống
-  
-  Tiếp nhận yêu cầu thêm kỹ năng mới từ ứng viên
-  
-🤖 Hệ thống gợi ý
+## AI Recommendation Service
+- FastAPI
+- SentenceTransformers
+- Cosine Similarity
+- Collaborative Filtering
 
-Hệ thống gợi ý được triển khai dưới dạng microservice (Python FastAPI):
+---
+# 🎯 Main Features
 
-  Gợi ý công việc phù hợp cho ứng viên: Content-based Filtering → so sánh kỹ năng ứng viên với yêu cầu công việc bằng cosine similarity.
-  
-  Gợi ý công việc tương tự: Xác định công việc giống nhau dựa trên vector kỹ năng.
-  
-  Gợi ý cộng tác (Collaborative Filtering): Dựa vào lịch sử ứng tuyển để gợi ý công việc mà những người dùng tương tự đã ứng tuyển.
-  
-  Gợi ý ứng viên phù hợp cho nhà tuyển dụng: Rule-based Scoring → so khớp kỹ năng với mức độ thành thạo (Cơ bản/Khá/Tốt) để tính điểm và xếp hạng.
-  
-🗂️ Mô hình dữ liệu (ERD)
+## 👩‍💻 Candidate Features
 
-  User (Ứng viên/Nhà tuyển dụng/Admin)
+- Register/Login with Email & Google
+- Create and manage CV
+- Search jobs by tech stack
+- Save jobs & follow companies
+- Apply for jobs
+- Receive real-time notifications
+- Get personalized job recommendations
+- Chatbot support
+- Dark/Light mode
+
+---
+
+## 🏢 Recruiter Features
+
+- Company management
+- Create and manage job postings
+- Review candidate CVs
+- Schedule interviews
+- Manage application status
+- View analytics dashboard
+- Receive candidate recommendations
+
+---
+
+## 👨‍💼 Admin Features
+
+- Manage tech skills
+- Manage users, companies, jobs
+- Monitor system statistics
+- Approve requested skills
+
+---
+
+# 🤖 Recommendation System
+
+The recommendation system is implemented as a separate FastAPI microservice.
+
+### Features:
+- Content-based Filtering
+- Collaborative Filtering
+- Rule-based Candidate Scoring
+- Cosine Similarity using SentenceTransformers
+
+---
+
+# 🗂️ Database Design
+
+Main collections:
+- User
+- Company
+- Job
+- TechSkill
+- Application
+- Notification
+- CV
+
+---
+
+# 🔐 Security Features
+
+- JWT Authentication
+- Role-based Authorization
+- Password Hashing
+- Rate Limiting
+- Helmet Security Middleware
+- Protected Routes
+
+---
+
+# ⚡ Performance Optimization
+
+- Pagination
+- MongoDB Indexing
+- Optimized Populate Queries
+- Service Layer Refactoring
+
+---
+
+# 📷 Demo
+
+<img width="1829" height="876" alt="Screenshot 2025-08-11 230213" src="https://github.com/user-attachments/assets/a81ffd38-9d76-4874-9561-6424248703d4" />
+
+---
   
-  Company
-  
-  Job
-  
-  TechSkill (bảng riêng để quản lý kỹ năng/công nghệ)
-  
-  Application (lưu đơn ứng tuyển và trạng thái)
-  
-  Notification
-  
-  CV
-  
-🛠️ Cài đặt & chạy thử
+# 🛠️ Install project
 
   1. Clone dự án:
 
@@ -154,22 +169,19 @@ Hệ thống gợi ý được triển khai dưới dạng microservice (Python 
     
     uvicorn main:app --reload
     
-📌 Hướng phát triển
+# 📌 Future Improvements
+- Resume Builder
+- AI Career Suggestion
+- Learning Recommendation System
+- Mobile App (React Native / Flutter)
+- Docker Deployment
+- Redis Caching
 
-Thêm nhiều mẫu CV, cho phép ứng viên tự thiết kế CV
+---
 
-Gợi ý khóa học / tài liệu phù hợp để học thêm skill còn thiếu
+# 👨‍💻 Author
 
-Chatbot thông minh hơn, xử lý nhiều intent phức tạp
+Nguyễn Đông Hồ
+Software Engineering Student – Can Tho University
 
-Ứng dụng di động (React Native / Flutter)
-
-📷 Demo giao diện
-
-<img width="1829" height="876" alt="Screenshot 2025-08-11 230213" src="https://github.com/user-attachments/assets/a81ffd38-9d76-4874-9561-6424248703d4" />
-
-👨‍💻 Tác giả
-
-Nguyễn Đông Hồ – Sinh viên ngành Kỹ thuật Phần mềm
-
-Trường Đại học Cần Thơ
+---

@@ -34,4 +34,11 @@ const jobSchema = new mongoose.Schema({
     views: { type: Number, default: 0 }
 }, {timestamps: true});
 
+jobSchema.index({ title: "text", description: "text", requirements: "text" });
+jobSchema.index({ company: 1 });
+jobSchema.index({ requiredSkills: 1 });
+jobSchema.index({ requiredLevels: 1 });
+jobSchema.index({ duration: 1 });
+jobSchema.index({ createdAt: -1 });
+
 export const Job = mongoose.model('Job', jobSchema);

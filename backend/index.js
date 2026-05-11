@@ -3,6 +3,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import http from "http";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import { Server } from 'socket.io';
 
 import connectDB from "./utils/db.js";
@@ -17,9 +19,22 @@ import notificationRoute from "./routes/notification.route.js";
 import statisticsRoute from "./routes/statistics.route.js";
 import recommendRoute from "./routes/recommend.route.js";
 import chatbotRoute from "./routes/chatbot.route.js";
+import { errorHandler } from "./middlewares/error.middleware.js";
 dotenv.config({});
 
 const app = express();
+
+// Security headers
+app.use(helmet());
+
+// Rate limit
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: "Quá nhiều request từ IP này."
+});
+
+app.use(limiter);
 
 //middleware
 app.use(express.json());
@@ -29,6 +44,7 @@ app.use(cors({
     origin: 'http://localhost:5173', //deploy https://ct-553-full-stack-job-portal.vercel.app
     credentials: true
 }));
+app.use(errorHandler);
 
 // Tạo HTTP server
 const server = http.createServer(app);

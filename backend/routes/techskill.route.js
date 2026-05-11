@@ -1,13 +1,13 @@
 import express from "express";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
-import { isAdmin } from "../middlewares/isAdmin.js";
 import { createSkill, getAllSkills, getRequest, removeRequestSkill, removeSkill, requestSkill, updateSkill, updateStatusRequest } from "../controllers/techskill.controller.js";
-
+import { authorizeRoles } from "../middlewares/authorizeRoles.js";
+import { ROLES } from "../constants/roles.js";
 const router = express.Router();
 
-router.route("/create-skill").post(isAuthenticated, isAdmin, createSkill);
-router.route("/update-skill/:id").put(isAuthenticated, isAdmin, updateSkill);
-router.route("/remove-skill/:id").delete(isAuthenticated, isAdmin, removeSkill);
+router.route("/create-skill").post(isAuthenticated, authorizeRoles(ROLES.ADMIN), createSkill);
+router.route("/update-skill/:id").put(isAuthenticated, authorizeRoles(ROLES.ADMIN), updateSkill);
+router.route("/remove-skill/:id").delete(isAuthenticated, authorizeRoles(ROLES.ADMIN), removeSkill);
 router.route("/skills").get(getAllSkills);
 router.route("/request-skill").post(isAuthenticated, requestSkill);
 router.route("/request").get(isAuthenticated, getRequest);

@@ -89,7 +89,6 @@ const SkillManager = () => {
   const fetchRequestSkills = async () => {
     try {
       const res = await axios.get(`${TECHSKILL_API_END_POINT}/request`, { withCredentials: true });
-      console.log("🔥 response từ API:", res.data);
       if (res.data.success) {
         dispatch(setRequestSkills(res.data.requestSkills));
       }

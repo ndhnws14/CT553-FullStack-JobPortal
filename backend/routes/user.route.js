@@ -19,8 +19,9 @@ import {
     updateProfile 
 } from "../controllers/user.controller.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
-import { isAdmin } from "../middlewares/isAdmin.js";
+import { authorizeRoles } from "../middlewares/authorizeRoles.js";
 import { singleUpload } from "../middlewares/multer.js";
+import { ROLES } from "../constants/roles.js";
 
 const router = express.Router();
 
@@ -30,8 +31,8 @@ router.route("/login-google").post(loginGoogle);
 router.route("/logout").get(logout);
 router.route("/reset-password").post(isAuthenticated, resetPassword);
 router.route("/me").get(isAuthenticated, getMe);
-router.route("/all-users").get(isAuthenticated, isAdmin, getAllUsers);
-router.route("/delete/:id").delete(isAuthenticated, isAdmin, deleteUser);
+router.route("/all-users").get(isAuthenticated, authorizeRoles(ROLES.ADMIN), getAllUsers);
+router.route("/delete/:id").delete(isAuthenticated, authorizeRoles(ROLES.ADMIN), deleteUser);
 router.route("/profile/update").post(isAuthenticated, updateProfile);
 router.route("/save/:id").post(isAuthenticated, saveJob);
 router.route("/love/:id").post(isAuthenticated, loveJob);
