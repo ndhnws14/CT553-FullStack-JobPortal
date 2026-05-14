@@ -4,8 +4,20 @@ import { Job } from "../models/job.model.js";
 import { Company } from "../models/company.model.js";
 import { TechSkill } from "../models/techskill.model.js";
 
+// const sessionClient = new dialogflow.SessionsClient({
+//   keyFilename: "./dialogflow-key.json",
+// });
+
+//--Deploy--
+const dialogflowConfig = JSON.parse(
+    process.env.DIALOGFLOW_SERVICE_ACCOUNT
+);
+
 const sessionClient = new dialogflow.SessionsClient({
-  keyFilename: "./dialogflow-key.json",
+    credentials: {
+        client_email: dialogflowConfig.client_email,
+        private_key: dialogflowConfig.private_key,
+    },
 });
 
 const PROJECT_ID = process.env.DIALOGFLOW_PROJECT_ID;
