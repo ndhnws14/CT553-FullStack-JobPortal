@@ -10,7 +10,10 @@ import { TechSkill } from "../models/techskill.model.js";
 
 //--Deploy--
 const dialogflowConfig = JSON.parse(
-    process.env.DIALOGFLOW_SERVICE_ACCOUNT
+    Buffer.from(
+        process.env.DIALOGFLOW_SERVICE_ACCOUNT_BASE64,
+        "base64"
+    ).toString("utf-8")
 );
 
 const sessionClient = new dialogflow.SessionsClient({
