@@ -43,7 +43,7 @@ app.use(cookieParser());
 app.use(cors({
     origin: [
         "http://localhost:5173",
-        "https://your-vercel-app.vercel.app"
+        "https://geekjobs-lilac.vercel.app"
     ],
     credentials: true
 }));
@@ -57,7 +57,7 @@ export const io = new Server(server, {
   cors: {
     origin: [
         "http://localhost:5173",
-        "https://your-vercel-app.vercel.app"
+        "https://geekjobs-lilac.vercel.app"
     ],
     credentials: true
   }
