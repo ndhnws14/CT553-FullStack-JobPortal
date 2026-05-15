@@ -178,11 +178,19 @@ export const login = async(req, res) => {
             cvId: user.cvId,
         }
 
+        //deploy Production
+        //sameSite: "none",
+        //secure: true
+        //DEV
+        //sameSite: "lax",
+        //secure: false
+
         return res.status(200)
             .cookie("token", token, {
                 maxAge: 1 * 24 * 60 * 60 * 1000, 
                 httpOnly: true, 
-                sameSite: 'lax'
+                sameSite: 'none',
+                secure: true
             })
             .json({
                 message: `Chào mừng ${user.fullname}`,

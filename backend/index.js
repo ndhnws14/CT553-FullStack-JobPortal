@@ -41,7 +41,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:5173', //deploy https://ct-553-full-stack-job-portal.vercel.app
+    origin: [
+        "http://localhost:5173",
+        "https://your-vercel-app.vercel.app"
+    ],
     credentials: true
 }));
 app.use(errorHandler);
@@ -52,7 +55,10 @@ const server = http.createServer(app);
 // Khởi tạo Socket.IO server
 export const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: [
+        "http://localhost:5173",
+        "https://your-vercel-app.vercel.app"
+    ],
     credentials: true
   }
 });
