@@ -61,6 +61,7 @@ export const io = new Server(server, {
         "http://localhost:5173",
         "https://geekjobs-lilac.vercel.app"
     ],
+    methods: ["GET", "POST"],
     credentials: true
   }
 });
