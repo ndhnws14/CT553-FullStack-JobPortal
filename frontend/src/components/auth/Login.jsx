@@ -27,30 +27,48 @@ const Login = () => {
   };
 
   const googleLoginHandler = async () => {
-    try {
-      dispatch(setLoading(true));
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      const idToken = await user.getIdToken();
+  try {
+    dispatch(setLoading(true));
 
-      const res = await axios.post(
-        `${USER_API_END_POINT}/login-google`,
-        { credential: idToken },
-        { withCredentials: true }
-      );
+    console.log("STEP 1");
 
-      if (res.data.success) {
-        dispatch(setUser(res.data.user));
-        navigate("/");
-        toast.success(res.data.message);
-      }
-    } catch (error) {
-      console.error("Lỗi khi đăng nhập Google:", error);
-      toast.error("Đăng nhập Google thất bại!");
-    } finally {
-      dispatch(setLoading(false));
+    const result = await signInWithPopup(auth, provider);
+
+    console.log("STEP 2");
+
+    const user = result.user;
+
+    console.log("USER", user);
+
+    const idToken = await user.getIdToken();
+
+    console.log("STEP 3");
+    console.log(idToken);
+
+    const res = await axios.post(
+      `${USER_API_END_POINT}/login-google`,
+      { credential: idToken },
+      { withCredentials: true }
+    );
+
+    console.log("STEP 4");
+    console.log(res.data);
+
+    if (res.data.success) {
+      dispatch(setUser(res.data.user));
+
+      console.log("STEP 5");
+
+      navigate("/");
+
+      toast.success(res.data.message);
     }
-  };
+  } catch (error) {
+    console.error("GOOGLE LOGIN ERROR:", error);
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
 
   const submitHandler = async (e) => {
     e.preventDefault();
