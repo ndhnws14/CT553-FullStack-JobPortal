@@ -259,7 +259,8 @@ export const loginGoogle = async (req, res) => {
         return res.status(200).cookie("token", token, {
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
-            sameSite: "strict",
+            secure: true,
+            sameSite: "none",
         }).json({
             message: `Chào mừng ${user.fullname}`,
             user,
