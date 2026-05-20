@@ -26,52 +26,48 @@ const Login = () => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-//   const googleLoginHandler = async () => {
-//     try {
-//       dispatch(setLoading(true));
-
-//       console.log("STEP 1");
-
-//       const result = await signInWithPopup(auth, provider);
-
-//       console.log("STEP 2");
-
-//       const user = result.user;
-
-//       console.log("USER", user);
-
-//       const idToken = await user.getIdToken();
-
-//       console.log("STEP 3");
-//       console.log(idToken);
-
-//       const res = await axios.post(
-//         `${USER_API_END_POINT}/login-google`,
-//         { credential: idToken },
-//         { withCredentials: true }
-//       );
-
-//       console.log("STEP 4");
-//       console.log(res.data);
-
-//       if (res.data.success) {
-//         dispatch(setUser(res.data.user));
-
-//         console.log("STEP 5");
-
-//         navigate("/");
-
-//         toast.success(res.data.message);
-//       }
-//     } catch (error) {
-//       console.error("GOOGLE LOGIN ERROR:", error);
-//     } finally {
-//       dispatch(setLoading(false));
-//     }
-// };
   const googleLoginHandler = async () => {
-    toast.error("Tạm thời bảo trì đăng nhập Google");
-    return;
+    try {
+      dispatch(setLoading(true));
+
+      console.log("STEP 1");
+
+      const result = await signInWithPopup(auth, provider);
+
+      console.log("STEP 2");
+
+      const user = result.user;
+
+      console.log("USER", user);
+
+      const idToken = await user.getIdToken();
+
+      console.log("STEP 3");
+      console.log(idToken);
+
+      const res = await axios.post(
+        `${USER_API_END_POINT}/login-google`,
+        { credential: idToken },
+        { withCredentials: true }
+      );
+
+      console.log("STEP 4");
+      console.log(res.data);
+
+      if (res.data.success) {
+        dispatch(setUser(res.data.user));
+
+        console.log("STEP 5");
+
+        navigate("/");
+
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.error("GOOGLE LOGIN ERROR:", error);
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   const submitHandler = async (e) => {
