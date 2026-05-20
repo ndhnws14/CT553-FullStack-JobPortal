@@ -245,16 +245,27 @@ export const loginGoogle = async (req, res) => {
         const now = new Date();
         const loginTime = now.toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" });
         
-        await sendMail(
-            email,
-            "Thông báo đăng nhập thành công",
-            `<h1>GEEKJOBS.vn</h1>
-            <h3>Xin chào ${name},</h3>
-            <p>Bạn vừa đăng nhập thành công vào tài khoản của mình lúc <strong>${loginTime}</strong>.</p>
-            <p>Nếu không phải bạn, vui lòng đổi mật khẩu ngay hoặc liên hệ với chúng tôi.</p>
-            <br>
-            <p>Trân trọng,<br>Website của bạn</p>`
-        );
+        // await sendMail(
+        //     email,
+        //     "Thông báo đăng nhập thành công",
+        //     `<h1>GEEKJOBS.vn</h1>
+        //     <h3>Xin chào ${name},</h3>
+        //     <p>Bạn vừa đăng nhập thành công vào tài khoản của mình lúc <strong>${loginTime}</strong>.</p>
+        //     <p>Nếu không phải bạn, vui lòng đổi mật khẩu ngay hoặc liên hệ với chúng tôi.</p>
+        //     <br>
+        //     <p>Trân trọng,<br>Website của bạn</p>`
+        // );
+        // ***
+        // sendMail(
+        //     email,
+        //     "Thông báo đăng nhập thành công",
+        //     `<h1>GEEKJOBS.vn</h1>
+        //     <h3>Xin chào ${name},</h3>
+        //     <p>Bạn vừa đăng nhập thành công vào tài khoản của mình lúc <strong>${loginTime}</strong>.</p>
+        //     <p>Nếu không phải bạn, vui lòng đổi mật khẩu ngay hoặc liên hệ với chúng tôi.</p>
+        //     <br>
+        //     <p>Trân trọng,<br>Website của bạn</p>`
+        // ).catch(err => console.log("Send mail error:", err));
 
         return res.status(200).cookie("token", token, {
             maxAge: 24 * 60 * 60 * 1000,
